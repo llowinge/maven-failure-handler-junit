@@ -1,6 +1,9 @@
 # Maven phase detector extension
-## Description
+## Description of problem
 When running JUnit test it can happen that the test is not run because of some previous maven phase failure (eg. dependency cannot be downloaded, compilation error, etc..). We could use some tool (eg. Jenkins JUnit plugin) to visualize test results, where we don't have to rely on reading the log. In that case we wouldn't see the failure on the first look and we could potentionally overlook it.
+
+## What the extension does
+It will catch failure occurred during any maven phase which was executed before test (surefire/failsafe) phase. From those failures are then constructed artificial XML surefire report files and placed under `<module>/target/surefire-reports`. 
 
 ## Build and use
 Firstly build the extension.
