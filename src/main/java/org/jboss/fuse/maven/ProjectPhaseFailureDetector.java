@@ -36,13 +36,13 @@ public class ProjectPhaseFailureDetector extends AbstractEventSpy {
                 (executionEvent = (ExecutionEvent) event).getType() == ExecutionEvent.Type.ProjectFailed) {
             final MavenProject project = executionEvent.getSession().getCurrentProject();
             final String targetDirectory = project.getModel().getBuild().getDirectory();
-            if (!new File(targetDirectory, "surefire-reports").exists() &&
-                    !new File(targetDirectory, "failsafe-reports").exists()) {
+            final File surefireReportsFile = new File(targetDirectory, "surefire-reports");
+            final File failsafeReportsFile = new File(targetDirectory, "failsafe-reports");
+            if (!surefireReportsFile.exists() && !failsafeReportsFile.exists()) {
                 final Exception exception = executionEvent.getException();
-                final File fakeSureFireReports = new File(targetDirectory, "surefire-reports");
-                fakeSureFireReports.mkdirs();
+                surefireReportsFile.mkdirs();
                 createJunitXml(project.getArtifactId(), ExceptionUtils.getRootCause(exception).getClass().getName(),
-                        exception.getMessage(), fakeSureFireReports);
+                        exception.getMessage(), surefireReportsFile);
             }
         }
     }
