@@ -27,7 +27,7 @@ public class FailureHandlerJunit extends AbstractEventSpy {
 
     @Override
     public void init(Context context) throws Exception {
-        logger.info("Maven phase detector extension loaded.");
+        logger.info("Maven failure handler junit extension loaded.");
         super.init(context);
     }
 
