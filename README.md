@@ -13,6 +13,17 @@ Then use it in your test run.
 
     -Dmaven.ext.class.path=<jar-file>
 
+Or placing XML into `${maven.multiModuleProjectDirectory}/.mvn/extensions.xml`:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+  <extension>
+    <groupId>org.jboss.fuse.maven</groupId>
+    <artifactId>maven-failure-handler-junit</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </extension>
+</extensions>
+```
 
 ## Deploy to Fuse QE nexus
 
