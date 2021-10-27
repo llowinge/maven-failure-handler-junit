@@ -20,13 +20,15 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
 @Component(role = EventSpy.class)
-public class ProjectPhaseFailureDetector extends AbstractEventSpy {
+public class FailureHandlerJunit extends AbstractEventSpy {
 
     @Requirement
     private Logger logger;
 
-    static {
-        System.out.println("Maven phase detector extension loaded.");
+    @Override
+    public void init(Context context) throws Exception {
+        logger.info("Maven phase detector extension loaded.");
+        super.init(context);
     }
 
     @Override
@@ -49,24 +51,24 @@ public class ProjectPhaseFailureDetector extends AbstractEventSpy {
 
     private void createJunitXml(String artifactId, String errorType, String message, File folder) {
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("testsuite");
+            final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            final Document doc = docBuilder.newDocument();
+            final Element rootElement = doc.createElement("testsuite");
             doc.appendChild(rootElement);
-            Element testcase = doc.createElement("testcase");
+            final Element testcase = doc.createElement("testcase");
             testcase.setAttribute("classname", getClass().toString());
             testcase.setAttribute("name", "ProjectPhaseFailed-" + artifactId);
-            Element failure = doc.createElement("failure");
+            final Element failure = doc.createElement("failure");
             failure.setAttribute("type", errorType);
             failure.appendChild(doc.createTextNode(message));
             testcase.appendChild(failure);
             rootElement.appendChild(testcase);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final Transformer transformer = transformerFactory.newTransformer();
+            final DOMSource source = new DOMSource(doc);
+            final StreamResult result = new StreamResult(
                     new File(folder, String.format("%s-%s.xml", getClass(), artifactId)));
             transformer.transform(source, result);
         } catch (Exception exception) {
