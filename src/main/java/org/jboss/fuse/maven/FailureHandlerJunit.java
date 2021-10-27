@@ -43,26 +43,31 @@ public class FailureHandlerJunit extends AbstractEventSpy {
             if (!surefireReportsFile.exists() && !failsafeReportsFile.exists()) {
                 final Exception exception = executionEvent.getException();
                 surefireReportsFile.mkdirs();
-                createJunitXml(project.getArtifactId(), ExceptionUtils.getRootCause(exception).getClass().getName(),
-                        exception.getMessage(), surefireReportsFile);
+                createJunitXml(project.getGroupId(), project.getArtifactId(),
+                        ExceptionUtils.getRootCause(exception).getClass().getName(),
+                        exception.getMessage(), ExceptionUtils.getStackTrace(exception), surefireReportsFile);
             }
         }
     }
 
-    private void createJunitXml(String artifactId, String errorType, String message, File folder) {
+    private void createJunitXml(String groupId, String artifactId, String errorType, String errorMessage,
+            String errorStacktrace, File folder) {
         try {
+            final String fullName = groupId + ".modules.failed." + artifactId;
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.newDocument();
             final Element rootElement = doc.createElement("testsuite");
+            rootElement.setAttribute("name", fullName);
             doc.appendChild(rootElement);
             final Element testcase = doc.createElement("testcase");
-            testcase.setAttribute("classname", getClass().toString());
-            testcase.setAttribute("name", "ProjectPhaseFailed-" + artifactId);
-            final Element failure = doc.createElement("failure");
-            failure.setAttribute("type", errorType);
-            failure.appendChild(doc.createTextNode(message));
-            testcase.appendChild(failure);
+            testcase.setAttribute("classname", fullName);
+            testcase.setAttribute("name", fullName);
+            final Element error = doc.createElement("error");
+            error.setAttribute("message", errorMessage);
+            error.setAttribute("type", errorType);
+            error.appendChild(doc.createTextNode(errorStacktrace));
+            testcase.appendChild(error);
             rootElement.appendChild(testcase);
 
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();
