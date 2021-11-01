@@ -53,7 +53,7 @@ public class FailureHandlerJunit extends AbstractEventSpy {
     private void createJunitXml(String groupId, String artifactId, String errorType, String errorMessage,
             String errorStacktrace, File folder) {
         try {
-            final String fullName = groupId + ".modules.failed." + artifactId;
+            final String fullName = groupId + ".modules." + artifactId;
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.newDocument();
@@ -62,7 +62,7 @@ public class FailureHandlerJunit extends AbstractEventSpy {
             doc.appendChild(rootElement);
             final Element testcase = doc.createElement("testcase");
             testcase.setAttribute("classname", fullName);
-            testcase.setAttribute("name", fullName);
+            testcase.setAttribute("name", "failedMavenPhase");
             final Element error = doc.createElement("error");
             error.setAttribute("message", errorMessage);
             error.setAttribute("type", errorType);
