@@ -74,7 +74,7 @@ public class FailureHandlerJunit extends AbstractEventSpy {
             final Transformer transformer = transformerFactory.newTransformer();
             final DOMSource source = new DOMSource(doc);
             final StreamResult result = new StreamResult(
-                    new File(folder, String.format("%s-%s.xml", getClass(), artifactId)));
+                    new File(folder, String.format("TEST-%s.xml", fullName)));
             transformer.transform(source, result);
         } catch (Exception exception) {
             logger.error("Failed to create XML report.", exception);
