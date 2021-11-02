@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <version.maven.core>3.6.3</version.maven.core>
         <version.plexus.component.metadata>2.1.0</version.plexus.component.metadata>
         <version.commons.lang3>3.12.0</version.commons.lang3>
