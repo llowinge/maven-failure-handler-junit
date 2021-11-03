@@ -59,6 +59,10 @@ public class FailureHandlerJunit extends AbstractEventSpy {
             final Document doc = docBuilder.newDocument();
             final Element rootElement = doc.createElement("testsuite");
             rootElement.setAttribute("name", fullName);
+            rootElement.setAttribute("tests", "1");
+            rootElement.setAttribute("errors", "1");
+            rootElement.setAttribute("skipped", "0");
+            rootElement.setAttribute("failures", "0");
             doc.appendChild(rootElement);
             final Element testcase = doc.createElement("testcase");
             testcase.setAttribute("classname", fullName);
