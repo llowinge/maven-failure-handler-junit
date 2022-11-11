@@ -25,10 +25,6 @@ Or placing XML into `${maven.multiModuleProjectDirectory}/.mvn/extensions.xml`:
 </extensions>
 ```
 
-## Deploy to Fuse QE nexus
-
-    mvn deploy:deploy-file -DgroupId=org.jboss.fuse.maven -DartifactId=maven-failure-handler-junit -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=target/maven-failure-handler-junit-1.0-SNAPSHOT.jar -DgeneratePom=true -DrepositoryId=nexus -Durl=http://nexus.fuse-qe.eng.rdu2.redhat.com/repository/fuse-qe-snapshots
-
 ## Articles and other sources
 * https://stackoverflow.com/questions/41893919/run-a-maven-plugin-when-the-build-fails
 * https://maven.apache.org/studies/extension-demo/
